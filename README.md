@@ -1,6 +1,7 @@
 # facehash-sv
 
 > Svelte port of [facehash](https://github.com/facehash/facehash) by cossistant. 
+>
 > The current version ports the library code as of commit [fce5dc5b65102754798d9d717fe5951d2d45d0c3](https://github.com/cossistantcom/cossistant/tree/fce5dc5b65102754798d9d717fe5951d2d45d0c3/packages/facehash).
 
 Deterministic avatar faces from any string. Zero dependencies, works with Svelte 5 and SvelteKit.
@@ -186,7 +187,3 @@ import type { AvatarContextValue, ImageLoadingStatus } from "facehash-sv";
 import { toFacehashHandler } from "facehash-sv/sveltekit";
 import type { FacehashHandlerOptions } from "facehash-sv/sveltekit";
 ```
-
-## License
-
-MIT — Built by [Cossistant](https://cossistant.com)
