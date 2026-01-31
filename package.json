@@ -1,6 +1,7 @@
 {
 	"name": "facehash-sv",
 	"version": "0.0.5",
+	"author": "Federico Fontana",
 	"private": false,
 	"description": "Svelte port of facehash by cossistant. Deterministic avatar faces from any string. Lightweight, interactive, pure CSS.",
 	"keywords": [
