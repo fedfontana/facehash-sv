@@ -77,6 +77,7 @@
 <script lang="ts">
 	import { FACES } from './faces/index.js';
 	import { stringHash } from './utils/hash.js';
+	import { DEFAULT_COLORS, getColor } from './core/index.js';
 
 	// ============================================================================
 	// Constants
@@ -142,11 +143,14 @@
 	// Derived Values
 	// ============================================================================
 
+	// Resolve colors with default fallback
+	let resolvedColors = $derived(colors && colors.length > 0 ? colors : [...DEFAULT_COLORS]);
+
 	// Generate deterministic values from name
 	let faceData = $derived.by(() => {
 		const hash = stringHash(name);
 		const faceIndex = hash % FACES.length;
-		const colorsLength = colorClasses?.length ?? colors?.length ?? 1;
+		const colorsLength = colorClasses?.length ?? resolvedColors.length;
 		const _colorIndex = hash % colorsLength;
 		const positionIndex = hash % SPHERE_POSITIONS.length;
 		const position = SPHERE_POSITIONS[positionIndex] ?? { x: 0, y: 0 };
@@ -181,7 +185,7 @@
 
 	// Background: either hex color (inline) or class
 	let bgColorClass = $derived(colorClasses?.[faceData.colorIndex]);
-	let bgColorHex = $derived(colors?.[faceData.colorIndex]);
+	let bgColorHex = $derived(colorClasses ? undefined : resolvedColors[faceData.colorIndex]);
 
 	// Combined class names
 	let combinedClass = $derived([bgColorClass, className].filter(Boolean).join(' '));

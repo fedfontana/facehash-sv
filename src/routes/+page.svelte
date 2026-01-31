@@ -29,7 +29,8 @@
 		<div class="grid">
 			{#each testNames as name}
 				<div class="card">
-					<Facehash {name} size={80} {colors} />
+					<Facehash {name} size={80} />
+					<!-- <Facehash {name} size={80} {colors} /> -->
 					<span class="name">{name}</span>
 				</div>
 			{/each}
