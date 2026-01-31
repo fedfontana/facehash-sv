@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	interface Props extends HTMLAttributes<SVGElement> {

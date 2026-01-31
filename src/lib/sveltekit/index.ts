@@ -12,6 +12,5 @@
  * @packageDocumentation
  */
 
-// Re-export core types for convenience
-export { DEFAULT_COLORS, type FacehashData, type FaceType, type Variant } from '../core/index.js';
+export { type FacehashData, type FaceType, type Variant } from '../core/index.js';
 export { type FacehashHandlerOptions, toFacehashHandler } from './handler.js';

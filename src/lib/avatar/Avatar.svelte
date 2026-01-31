@@ -31,7 +31,7 @@
 </script>
 
 <script lang="ts">
-	import type { HTMLAttributes, SvelteHTMLElements } from 'svelte/elements';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import type { Snippet } from 'svelte';
 
 	interface Props extends HTMLAttributes<HTMLSpanElement> {
@@ -42,7 +42,6 @@
 
 	let imageLoadingStatus = $state<ImageLoadingStatus>('idle');
 
-	// Set up context
 	setAvatarContext({
 		get imageLoadingStatus() {
 			return imageLoadingStatus;

@@ -1,10 +1,11 @@
 export {
     type ComputeFacehashOptions,
     computeFacehash,
-    DEFAULT_COLORS,
     FACE_TYPES,
     type FacehashData,
     type FaceType,
-    getColor,
     type Variant
 } from './facehash-data.js';
+
+export { stringHash } from './hash.js';
+export { DEFAULT_COLORS, getColor } from './colors.js';

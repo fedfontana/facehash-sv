@@ -105,7 +105,6 @@
 
 {#if shouldRender}
 	{#if children}
-		<!-- Custom children take precedence -->
 		<span
 			class={className}
 			data-avatar-fallback=""
@@ -120,7 +119,6 @@
 			{@render children()}
 		</span>
 	{:else if facehash}
-		<!-- Facehash mode (default) -->
 		<Facehash
 			class={className}
 			data-avatar-fallback=""
@@ -131,7 +129,6 @@
 			{...restProps}
 		/>
 	{:else}
-		<!-- Initials mode -->
 		<span
 			class={className}
 			data-avatar-fallback=""

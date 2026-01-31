@@ -5,10 +5,6 @@
 <script lang="ts" module>
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	// ============================================================================
-	// Types (exported from module context)
-	// ============================================================================
-
 	export type Intensity3D = 'none' | 'subtle' | 'medium' | 'dramatic';
 	export type Variant = 'gradient' | 'solid';
 
@@ -76,12 +72,8 @@
 
 <script lang="ts">
 	import { FACES } from './faces/index.js';
-	import { stringHash } from './utils/hash.js';
-	import { DEFAULT_COLORS, getColor } from './core/index.js';
-
-	// ============================================================================
-	// Constants
-	// ============================================================================
+	import { stringHash } from './core/hash.ts';
+	import { DEFAULT_COLORS } from './core/colors.ts';
 
 	const INTENSITY_PRESETS = {
 		none: {
@@ -118,10 +110,6 @@
 		{ x: 1, y: -1 } // up-left
 	] as const;
 
-	// ============================================================================
-	// Props & State
-	// ============================================================================
-
 	let {
 		name,
 		size = 40,
@@ -139,14 +127,9 @@
 
 	let isHovered = $state(false);
 
-	// ============================================================================
-	// Derived Values
-	// ============================================================================
-
-	// Resolve colors with default fallback
 	let resolvedColors = $derived(colors && colors.length > 0 ? colors : [...DEFAULT_COLORS]);
 
-	// Generate deterministic values from name
+	// deterministic values from name
 	let faceData = $derived.by(() => {
 		const hash = stringHash(name);
 		const faceIndex = hash % FACES.length;
@@ -162,10 +145,8 @@
 		};
 	});
 
-	// Get intensity preset
 	let preset = $derived(INTENSITY_PRESETS[intensity3d]);
 
-	// Calculate 3D transform
 	let transform = $derived.by(() => {
 		if (intensity3d === 'none') {
 			return undefined;
@@ -177,22 +158,13 @@
 		return `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${preset.translateZ}px)`;
 	});
 
-	// Size style
 	let sizeValue = $derived(typeof size === 'number' ? `${size}px` : size);
-
-	// Initial letter
 	let initial = $derived(name.charAt(0).toUpperCase());
 
-	// Background: either hex color (inline) or class
 	let bgColorClass = $derived(colorClasses?.[faceData.colorIndex]);
 	let bgColorHex = $derived(colorClasses ? undefined : resolvedColors[faceData.colorIndex]);
 
-	// Combined class names
 	let combinedClass = $derived([bgColorClass, className].filter(Boolean).join(' '));
-
-	// ============================================================================
-	// Event Handlers
-	// ============================================================================
 
 	function handleMouseEnter() {
 		if (interactive) {

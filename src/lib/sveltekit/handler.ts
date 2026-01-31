@@ -1,10 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { computeFacehash, DEFAULT_COLORS, getColor, type Variant } from '../core/index.js';
+import { computeFacehash, getColor, type Variant } from '../core/index.js';
+import { DEFAULT_COLORS } from '../core/colors.ts';
 import { FACE_SVG_DATA } from './faces-svg.js';
-
-// ============================================================================
-// Types
-// ============================================================================
 
 export type FacehashHandlerOptions = {
     /**
@@ -42,10 +39,6 @@ export type FacehashHandlerOptions = {
      */
     cacheControl?: string | null;
 };
-
-// ============================================================================
-// Helper Functions
-// ============================================================================
 
 const HEX_COLOR_REGEX = /^#[0-9A-Fa-f]{3,8}$/;
 
@@ -85,10 +78,6 @@ function parseVariant(value: string | null): Variant | undefined {
     return;
 }
 
-// ============================================================================
-// SVG Generator
-// ============================================================================
-
 interface RenderOptions {
     size: number;
     backgroundColor: string;
@@ -103,26 +92,20 @@ function generateSvg(options: RenderOptions): string {
     const { size, backgroundColor, faceType, initial, rotation, variant, showInitial } = options;
     const svgData = FACE_SVG_DATA[faceType];
 
-    // Calculate SVG dimensions based on viewBox
     const [, , vbWidth, vbHeight] = svgData.viewBox.split(' ').map(Number);
     const aspectRatio = (vbWidth ?? 1) / (vbHeight ?? 1);
 
-    // Face takes up ~60% of the container width
     const faceWidth = size * 0.6;
     const faceHeight = faceWidth / aspectRatio;
 
-    // Font size for initial (26% of size)
     const fontSize = size * 0.26;
 
-    // Calculate 3D effect offset
     const offsetMagnitude = size * 0.05;
     const offsetX = rotation.y * offsetMagnitude;
     const offsetY = -rotation.x * offsetMagnitude;
 
-    // Build face paths
     const paths = svgData.paths.map((d) => `<path d="${d}" fill="black"/>`).join('');
 
-    // Build gradient overlay
     const gradientOverlay =
         variant === 'gradient'
             ? `<defs>
@@ -134,7 +117,6 @@ function generateSvg(options: RenderOptions): string {
 			<rect width="${size}" height="${size}" fill="url(#grad)"/>`
             : '';
 
-    // Build initial letter
     const initialEl = showInitial
         ? `<text 
 				x="${size / 2 + offsetX}" 
@@ -160,10 +142,6 @@ function generateSvg(options: RenderOptions): string {
 		${initialEl}
 	</svg>`;
 }
-
-// ============================================================================
-// Main Export
-// ============================================================================
 
 /**
  * Creates a SvelteKit request handler for generating Facehash avatar images.
@@ -205,7 +183,6 @@ export function toFacehashHandler(options: FacehashHandlerOptions = {}): Request
     const handler: RequestHandler = async ({ url }) => {
         const searchParams = url.searchParams;
 
-        // Parse name (required)
         const name = searchParams.get('name');
         if (!name) {
             const errorSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${defaultSize}" height="${defaultSize}" viewBox="0 0 ${defaultSize} ${defaultSize}">
@@ -221,22 +198,18 @@ export function toFacehashHandler(options: FacehashHandlerOptions = {}): Request
             });
         }
 
-        // Parse options from query params (override defaults)
         const size = parseNumber(searchParams.get('size'), defaultSize, 16, 2000);
         const variant = parseVariant(searchParams.get('variant')) ?? defaultVariant;
         const showInitial = parseBoolean(searchParams.get('showInitial'), defaultShowInitial);
         const colors = parseColors(searchParams.get('colors')) ?? defaultColors;
 
-        // Compute facehash data
         const data = computeFacehash({
             name,
             colorsLength: colors.length
         });
 
-        // Get background color
         const backgroundColor = getColor(colors, data.colorIndex);
 
-        // Generate SVG
         const svg = generateSvg({
             size,
             backgroundColor,
@@ -247,7 +220,6 @@ export function toFacehashHandler(options: FacehashHandlerOptions = {}): Request
             showInitial
         });
 
-        // Build response headers
         const headers: Record<string, string> = {
             'Content-Type': 'image/svg+xml'
         };
