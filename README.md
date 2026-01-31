@@ -1,6 +1,6 @@
 # facehash-sv
 
-> Svelte port of [facehash](https://github.com/facehash/facehash) by cossistant.
+> Svelte port of [facehash](https://github.com/cossistantcom/cossistant/tree/main/packages/facehash) by cossistant.
 >
 > The current version ports the library code as of commit [fce5dc5b65102754798d9d717fe5951d2d45d0c3](https://github.com/cossistantcom/cossistant/tree/fce5dc5b65102754798d9d717fe5951d2d45d0c3/packages/facehash).
 
