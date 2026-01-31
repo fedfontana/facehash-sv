@@ -1,6 +1,27 @@
 {
 	"name": "facehash-sv",
-	"version": "0.0.1",
+	"version": "0.0.5",
+	"private": false,
+	"description": "Svelte port of facehash by cossistant. Deterministic avatar faces from any string. Lightweight, interactive, pure CSS.",
+	"keywords": [
+		"facehash",
+		"facehash-sv",
+		"svelte",
+		"sveltekit",
+		"avatar",
+		"og-image",
+		"image-generation",
+		"deterministic",
+		"profile-picture",
+		"profile-avatar",
+		"hash",
+		"face",
+		"interactive",
+		"gradient",
+		"typescript",
+		"user-avatar",
+		"default-avatar"
+	],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
@@ -12,8 +33,18 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write ."
 	},
+	"bugs": {
+		"url": "https://github.com/fedfontana/facehash-sv/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fedfontana/facehash-sv.git"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/fedfontana/facehash-sv",
 	"files": [
 		"dist",
+		"LICENSE",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
@@ -62,8 +93,5 @@
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.53.1",
 		"vite": "^7.3.1"
-	},
-	"keywords": [
-		"svelte"
-	]
+	}
 }
